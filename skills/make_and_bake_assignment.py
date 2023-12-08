@@ -87,15 +87,12 @@ def try_parse_participants(message: str):
     person = "";
     while (index < len(message)):
         if (message[index] == ","):
-            people.append(person.capitalize())
+            people.append(person.strip().capitalize())
             person = ""
         elif (message[index] == "]"):
             if (len(person) > 0):
-                people.append(person.capitalize())
+                people.append(person.strip().capitalize())
             break
-        elif (message[index] == " " or message[index] == "\n"):
-            index += 1
-            continue
         else:
             person += message[index]
             
