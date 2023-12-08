@@ -23,7 +23,7 @@ async def send_explanation_message(message):
 def make_success_message_text(senders, recievers):
     base_message = "Here are your make and bake assignments this year:\n\n"
     for pair in zip(senders, recievers):
-        base_message += pair[0] + " will be making a gift for " + pair[1] + "."
+        base_message += pair[0] + " will be making a gift for " + pair[1] + ".\n"
     base_message += "\n\nMerry Christmas!!"
     
     return base_message
