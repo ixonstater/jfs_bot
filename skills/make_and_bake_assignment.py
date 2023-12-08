@@ -21,9 +21,9 @@ async def send_explanation_message(message):
     await message.channel.send("Hmm I couldn't find a list of participants, try including a list of more than two people in brackets with commas eg. [bobby, hank, boomhauer].")
 
 def make_success_message_text(senders, recievers):
-    base_message = "Here are your make and bake assignments this year:\n"
+    base_message = "Here are your make and bake assignments this year:\n\n"
     for pair in zip(senders, recievers):
-        base_message += pair[0] + " will be making a gift for " + pair[1] + ".\n"
+        base_message += pair[0] + " will be making a gift for " + pair[1] + ".\n\n"
     base_message += "Merry Christmas!!"
     
     return base_message
