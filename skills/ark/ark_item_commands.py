@@ -36,7 +36,7 @@ async def lookup_item_command(message):
     matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], item_lookup)
     matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
     matched_items = [items[i] for i in matched_item_indicides]
-    matched_items = matched_items[0:4]
+    matched_items = matched_items[0:5]
     
     return_message = "The following items matched your search: \n\n"
     for item in matched_items:
