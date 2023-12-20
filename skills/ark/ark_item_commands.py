@@ -55,4 +55,4 @@ async def boss_item_command(message):
     await message.channel.send(return_message)
 
 async def send_instructions(message):
-    await message.channel.send("Hmm I didn't understand that, available commands with the tagline 'ark' include\n```lookup item {search term}\nboss items {map} {gamma/beta/alpha}```")
+    await message.channel.send("Hmm I didn't understand that, available commands with the tagline 'ark' include\n```ark lookup item {search term}\nark boss items```")
