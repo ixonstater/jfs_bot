@@ -58,7 +58,7 @@ async def lookup_item_command(message):
     
 async def lookup_s_item_command(message):
     message_segments = message.clean_content.lower().split(' ')
-    lookup_term_index = message_segments.index('lookup') + 3
+    lookup_term_index = message_segments.index('lookup') + 2
     if (len(message_segments) <= lookup_term_index):
         await send_instructions(message)
         return
