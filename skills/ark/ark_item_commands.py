@@ -10,12 +10,23 @@ with open("skills/ark/items.json", "r") as file:
     items = json.loads(file.read())
     item_lookup = list(enumerate(map(lambda elem: elem['displayName'].lower(), items)))
 
+s_items = None
+s_item_lookup = []
+
+with open("skills/ark/s_plus.txt", "r") as file:
+    s_items = file.readlines()
+    s_item_lookup = list(enumerate(map(lambda elem: elem.lower(), s_items)))
+
+
 async def try_execute(message):
     if ("ark" not in message.clean_content.lower()):
         return
     
     if ("lookup item" in message.clean_content.lower()):
         await lookup_item_command(message)
+        await send_command_format_reminder(message)
+    elif ("lookup sp" in message.clean_content.lower()):
+        await lookup_s_item_command(message)
         await send_command_format_reminder(message)
     elif ("boss items" in message.clean_content.lower()):
         await boss_item_command(message)
@@ -44,6 +55,24 @@ async def lookup_item_command(message):
         return_message += f"**Spawn One:** {item['gfiCommand']}\n"
         return_message += f"**Spawn Stack:** {item['gfiCommandStack']}\n\n"
     await message.channel.send(return_message)
+    
+async def lookup_s_item_command(message):
+    message_segments = message.clean_content.lower().split(' ')
+    lookup_term_index = message_segments.index('lookup') + 3
+    if (len(message_segments) <= lookup_term_index):
+        await send_instructions(message)
+        return
+    
+    lookup_term = message_segments[lookup_term_index]
+    matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], s_item_lookup)
+    matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
+    matched_items = [s_items[i] for i in matched_item_indicides]
+    matched_items = matched_items[0:5]
+    
+    return_message = "The following s+ items matched your search: \n\n"
+    for item in matched_items:
+        return_message += f"**Command:** {item}"
+    await message.channel.send(return_message)
 
 async def boss_item_command(message):
     return_message = "**Spawn one stack of all trophies:**\n"
@@ -55,4 +84,4 @@ async def boss_item_command(message):
     await message.channel.send(return_message)
 
 async def send_instructions(message):
-    await message.channel.send("Hmm I didn't understand that, available commands with the tagline 'ark' include\n```ark lookup item {search term}\nark boss items```")
+    await message.channel.send("Hmm I didn't understand that, available commands with the tagline 'ark' include\n```ark lookup item {search term}\nark lookup sp {search term}\nark boss items```")

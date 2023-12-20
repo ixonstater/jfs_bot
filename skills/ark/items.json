@@ -1,5 +1,10 @@
 [
     {
+        "displayName": "S+ Mutator",
+        "gfiCommand": "cheat GiveItem \"Blueprint'/Game/Mods/StructuresPlusMod/Misc/GenomicsChamber/PrimalItemStructure_GenomicsChamber.PrimalItemStructure_GenomicsChamber'\" 1 0 0",
+        "gfiCommandStack": ""
+    },
+    {
         "displayName": "Allosaurus Egg (Medium)",
         "gfiCommand": "cheat GFI Egg_Allo 1 0 0",
         "gfiCommandStack": "cheat GFI Egg_Allo 100 0 0"
