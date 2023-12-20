@@ -1,0 +1,3 @@
+TODO
+
+1. Change ark command from parsing single word following prompt term to using whole remaining sentence

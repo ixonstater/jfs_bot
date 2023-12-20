@@ -19,6 +19,14 @@
             "program": "${workspaceRoot}/skills/ark/get_items_from_ark_ids.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Get s_items list",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/skills/ark/get_items_from_ark_ids_sp.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }
