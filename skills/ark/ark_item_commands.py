@@ -1,4 +1,3 @@
-
 import json
 from typing import List
 
@@ -13,20 +12,19 @@ with open("skills/ark/items.json", "r") as file:
 s_items = None
 s_item_lookup = []
 
-with open("skills/ark/s_plus.txt", "r") as file:
-    s_items = file.readlines()
-    s_item_lookup = list(enumerate(map(lambda elem: elem.lower(), s_items)))
-
+with open("skills/ark/s_items.json", "r") as file:
+    s_items = json.loads(file.read())
+    s_item_lookup = list(enumerate(map(lambda elem: elem['displayName'].lower(), s_items)))
 
 async def try_execute(message):
     if ("ark" not in message.clean_content.lower()):
         return
     
     if ("lookup item" in message.clean_content.lower()):
-        await lookup_item_command(message)
+        await lookup_item_command(message, item_lookup, items)
         await send_command_format_reminder(message)
     elif ("lookup sp" in message.clean_content.lower()):
-        await lookup_s_item_command(message)
+        await lookup_item_command(message, s_item_lookup, s_items)
         await send_command_format_reminder(message)
     elif ("boss items" in message.clean_content.lower()):
         await boss_item_command(message)
@@ -36,7 +34,7 @@ async def try_execute(message):
 async def send_command_format_reminder(message):
     await message.channel.send('\nThe three number represent quantity, quality and blueprint spawning (boolean: 0, 1) in that order.')
     
-async def lookup_item_command(message):
+async def lookup_item_command(message, lookup, item_array):
     message_segments = message.clean_content.lower().split(' ')
     lookup_term_index = message_segments.index('lookup') + 2
     if (len(message_segments) <= lookup_term_index):
@@ -44,33 +42,15 @@ async def lookup_item_command(message):
         return
     
     lookup_term = message_segments[lookup_term_index]
-    matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], item_lookup)
+    matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], lookup)
     matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
-    matched_items = [items[i] for i in matched_item_indicides]
+    matched_items = [item_array[i] for i in matched_item_indicides]
     matched_items = matched_items[0:10]
     
     return_message = "The following items matched your search: \n\n"
     for item in matched_items:
         return_message += f"**Display Name:** {item['displayName']}\n"
         return_message += f"**Spawn Command:** {item['spawnCommand']}\n\n"
-    await message.channel.send(return_message)
-    
-async def lookup_s_item_command(message):
-    message_segments = message.clean_content.lower().split(' ')
-    lookup_term_index = message_segments.index('lookup') + 2
-    if (len(message_segments) <= lookup_term_index):
-        await send_instructions(message)
-        return
-    
-    lookup_term = message_segments[lookup_term_index]
-    matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], s_item_lookup)
-    matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
-    matched_items = [s_items[i] for i in matched_item_indicides]
-    matched_items = matched_items[0:5]
-    
-    return_message = "The following s+ items matched your search: \n\n"
-    for item in matched_items:
-        return_message += f"**Command:** {item}"
     await message.channel.send(return_message)
 
 async def boss_item_command(message):
