@@ -1,5 +1,6 @@
 import os
 import skills.make_and_bake_assignment as m_and_b
+import skills.ark.ark_item_commands as ark
 import discord
 from dotenv import load_dotenv
 
@@ -25,5 +26,6 @@ async def on_message(message):
             return
         
     await m_and_b.try_execute(message)
+    await ark.try_execute(message)
     
 client.run(token)
