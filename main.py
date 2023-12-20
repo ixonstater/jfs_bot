@@ -21,9 +21,13 @@ async def on_message(message):
         return
     
     # Check that the bot user was mentioned
+    has_mention = False
     for user in message.mentions:
-        if (user.id != bot_id):
-            return
+        if (user.id == bot_id):
+            has_mention = True
+            break
+    if (not has_mention):
+        return
         
     await m_and_b.try_execute(message)
     await ark.try_execute(message)
