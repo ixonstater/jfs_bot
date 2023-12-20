@@ -34,7 +34,7 @@ async def try_execute(message):
         await send_instructions(message)
 
 async def send_command_format_reminder(message):
-    await message.channel.send('The three number represent quantity, quality and blueprint spawning (boolean: 0, 1) in that order.')
+    await message.channel.send('\nThe three number represent quantity, quality and blueprint spawning (boolean: 0, 1) in that order.')
     
 async def lookup_item_command(message):
     message_segments = message.clean_content.lower().split(' ')
@@ -47,13 +47,12 @@ async def lookup_item_command(message):
     matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], item_lookup)
     matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
     matched_items = [items[i] for i in matched_item_indicides]
-    matched_items = matched_items[0:5]
+    matched_items = matched_items[0:10]
     
     return_message = "The following items matched your search: \n\n"
     for item in matched_items:
         return_message += f"**Display Name:** {item['displayName']}\n"
-        return_message += f"**Spawn One:** {item['gfiCommand']}\n"
-        return_message += f"**Spawn Stack:** {item['gfiCommandStack']}\n\n"
+        return_message += f"**Spawn Command:** {item['spawnCommand']}\n\n"
     await message.channel.send(return_message)
     
 async def lookup_s_item_command(message):

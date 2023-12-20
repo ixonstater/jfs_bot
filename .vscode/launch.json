@@ -11,6 +11,14 @@
             "program": "${workspaceRoot}/main.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Get items list",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/skills/ark/get_items_from_ark_ids.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }
