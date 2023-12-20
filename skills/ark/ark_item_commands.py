@@ -1,5 +1,4 @@
 import json
-from typing import List
 
 
 items = None
@@ -40,8 +39,8 @@ async def lookup_item_command(message, lookup, item_array):
     if (len(message_segments) <= lookup_term_index):
         await send_instructions(message)
         return
-    
-    lookup_term = message_segments[lookup_term_index]
+
+    lookup_term = " ".join(message_segments[lookup_term_index:])
     matched_item_enumerables = filter(lambda elem: lookup_term in elem[1], lookup)
     matched_item_indicides = list(map(lambda elem: elem[0], matched_item_enumerables))
     matched_items = [item_array[i] for i in matched_item_indicides]
