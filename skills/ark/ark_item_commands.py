@@ -15,27 +15,34 @@ with open("skills/ark/s_items.json", "r") as file:
     s_items = json.loads(file.read())
     s_item_lookup = list(enumerate(map(lambda elem: elem['displayName'].lower(), s_items)))
 
+item_token="item"
+s_plus_token="splus"
+boss_token="boss"
+password_token="password"
+
 async def try_execute(message):
     if ("ark" not in message.clean_content.lower()):
         return
-    
-    if ("lookup item" in message.clean_content.lower()):
-        await lookup_item_command(message, item_lookup, items)
+
+    if (item_token in message.clean_content.lower()):
+        await lookup_item_command(message, item_lookup, items, item_token)
         await send_command_format_reminder(message)
-    elif ("lookup sp" in message.clean_content.lower()):
-        await lookup_item_command(message, s_item_lookup, s_items)
+    elif (s_plus_token in message.clean_content.lower()):
+        await lookup_item_command(message, s_item_lookup, s_items, s_plus_token)
         await send_command_format_reminder(message)
-    elif ("boss items" in message.clean_content.lower()):
+    elif (boss_token in message.clean_content.lower()):
         await boss_item_command(message)
+    elif (password_token in message.clean_content.lower()):
+        await send_password_command(message)
     else:
         await send_instructions(message)
 
 async def send_command_format_reminder(message):
     await message.channel.send('\nThe three number represent quantity, quality and blueprint spawning (boolean: 0, 1) in that order.')
-    
-async def lookup_item_command(message, lookup, item_array):
+
+async def lookup_item_command(message, lookup, item_array, search_token):
     message_segments = message.clean_content.lower().split(' ')
-    lookup_term_index = message_segments.index('lookup') + 2
+    lookup_term_index = message_segments.index(search_token) + 1
     if (len(message_segments) <= lookup_term_index):
         await send_instructions(message)
         return
@@ -61,5 +68,13 @@ async def boss_item_command(message):
     return_message += "cheat GFI Artifact_12 1 0 0;cheat GFI Artifact_05 1 0 0;cheat GFI Artifact_11 1 0 0;cheat GFI Artifact_04 1 0 0;cheat GFI Artifact_07 1 0 0;cheat GFI Artifact_01 1 0 0;cheat GFI Artifact_08 1 0 0;cheat GFI Artifact_03 1 0 0;cheat GFI Artifact_02 1 0 0;cheat GFI Artifact_06 1 0 0;cheat GFI Artifact_09 1 0 0;"
     await message.channel.send(return_message)
 
+async def send_password_command(message):
+    await message.channel.send("**Enable Cheats:** EnableCheats 2Xs4sf868Y")
+
 async def send_instructions(message):
-    await message.channel.send("Hmm I didn't understand that, available commands with the tagline 'ark' include\n```ark lookup item {search term}\nark lookup sp {search term}\nark boss items```")
+    await message.channel.send(f"""Hmm I didn't understand that, available commands with the tagline 'ark' include
+```{item_token} {{search term}}
+{s_plus_token} {{search term}}
+{boss_token}
+{password_token}```"""
+)
