@@ -19,11 +19,15 @@ item_token="item"
 s_plus_token="splus"
 boss_token="boss"
 password_token="password"
+enabled_channels = [
+    1186805792729485362,
+    1182692454223315058
+]
 
 async def try_execute(message):
-    if ("ark" not in message.clean_content.lower()):
+    if (message.channel.id not in enabled_channels):
         return
-
+    
     if (item_token in message.clean_content.lower()):
         await lookup_item_command(message, item_lookup, items, item_token)
         await send_command_format_reminder(message)
